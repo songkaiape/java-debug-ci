@@ -120,7 +120,7 @@ export async function createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAG
         "sourcePaths": _.map(_.compact([config.sourcePath, config.testPath]), folder =>
             path.join(DATA_ROOT, folder)),
         "args": config.args,
-        "vmArgs":config.vmargs,
+        "vmArgs":config.vmArgs,
         "encoding": config.encoding
     });
     config.withEngine(engine);

@@ -107,7 +107,7 @@ class AttachTest {
                         variable.type.should.equal('java.lang.String[]');
                         utils.shouldMatch(variable.value, /^"ABCD"\s+\(id=\d+\)$/g);
                     }
-                    if (variable.name === 'even') {
+                    if (variable.name === 'evens') {
                         utils.shouldMatch(variable.value, /^12\s+\(id=\d+\)$/g);
                     }
                     

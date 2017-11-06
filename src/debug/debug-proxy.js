@@ -165,7 +165,7 @@ export function startDebugServer(projectRoot, logLevel) {
                         "jsonrpc": "2.0",
                         "id": "resolveMainClass",
                         "method": "workspace/executeCommand",
-                        "params": {"command": "vscode.java.resolveMainClass", "arguments": ['../../java/testcase/1.helloworld']}
+                        "params": {"command": "vscode.java.resolveMainClass", "arguments": []}
                     });
                     console.log('Resolve mainClass ', data.result);
                     console.log('Resolve mainClass---> ', data.id);

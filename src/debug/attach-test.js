@@ -15,7 +15,7 @@ describe('Attach test', () => {
         return (async () => {
             config = new AttachTest();
             DATA_ROOT = path.join(ROOT, config.workspaceRoot);
-            let cmdStr = 'cd dir&&cd src&&java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=1044 test.attachdebug';
+            let cmdStr = 'cd dir&&cd src&&javac ./test/attachdebug.java&&java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=1044 test.attachdebug';
             
              cmdStr=cmdStr.replace("dir",DATA_ROOT);
              exec(cmdStr, function (err, stdout, stderr) {

@@ -9,6 +9,7 @@ public class attachdebug {
 		Stream.of(sixNums).filter(n -> n%2 == 0).reduce(0, Integer::sum);
 		
 		System.out.println(concat+"  "+evens);
+		System.out.print("Hello");
 	}
 
 }

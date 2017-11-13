@@ -72,7 +72,7 @@ class ArgsTest {
     }
 
     get encoding(){
-        return "UTF-16";
+        return "GBK";
     }
 
     get initialBreakpoints() {
@@ -100,8 +100,8 @@ class ArgsTest {
                         console.log('----->', await engine.variables(variable.variablesReference));
                     }
                     if (variable.name === 'args') {
-                        variable.type.should.equal('java.lang.String[]');
-                        utils.shouldMatch(variable.value, /^java.lang.String\[3]\s+\(id=\d+\)$/g);
+                        variable.type.should.equal('String[]');
+                        utils.shouldMatch(variable.value, /^String\[3]\s+\(id=\d+\)$/g);
                     }
                     if (variable.name === 'sysProp1Value') {
                         utils.shouldMatch(variable.value, /^"sp1"\s+\(id=\d+\)$/g);
@@ -110,7 +110,7 @@ class ArgsTest {
                         utils.shouldMatch(variable.value, /^"sp2"\s+\(id=\d+\)$/g);
                     }
                     if (variable.name === 'encoding') {
-                        utils.shouldMatch(variable.value, /^"UTF-16"\s+\(id=\d+\)$/g);
+                        utils.shouldMatch(variable.value, /^"GBK"\s+\(id=\d+\)$/g);
                     }
                 }
             }

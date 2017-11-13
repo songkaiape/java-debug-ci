@@ -77,7 +77,7 @@ export async function createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAG
         throw new Error(`${LANGUAGE_SERVER_ROOT} doesn't exist.`);
     }
     var defaultSettings={
-        "logLevel":"info",
+        "logLevel":"FINE",
         "maxStringLength":0,
         "showStaticVariables":true,
         "showQualifiedNames":false,

@@ -3,6 +3,7 @@ import path from 'path'
 import * as utils from './test-utils'
 chai.should();
 import {ROOT, LANGUAGE_SERVER_ROOT, LANGUAGE_SERVER_WORKSPACE} from './constants'
+import { util } from 'chai/lib/chai';
 
 describe('Args test', () => {
     let config;
@@ -86,6 +87,7 @@ class ArgsTest {
         const breakpointFile = path.join(engine.cwd, this.sourcePath, 'ArgsTest.java');
         const expectedLine = 20;
         const outputList = [];
+        var assertCount=0;
         engine.registerHandler('breakpoint:*/ArgsTest.java:*', async (event, arg1, arg2, detail) => {
             utils.pathEquals(breakpointFile, detail.source.path).should.equal(true);
             detail.line.should.equal(expectedLine);
@@ -102,18 +104,24 @@ class ArgsTest {
                     if (variable.name === 'args') {
                         variable.type.should.equal('String[]');
                         utils.shouldMatch(variable.value, /^String\[3]\s+\(id=\d+\)$/g);
+                        assertCount+=1;
                     }
                     if (variable.name === 'sysProp1Value') {
                         utils.shouldMatch(variable.value, /^"sp1"\s+\(id=\d+\)$/g);
+                        assertCount+=1;
                     }
                     if (variable.name === 'sysProp2Value') {
                         utils.shouldMatch(variable.value, /^"sp2"\s+\(id=\d+\)$/g);
+                        assertCount+=1;
                     }
                     if (variable.name === 'encoding') {
                         utils.shouldMatch(variable.value, /^"GBK"\s+\(id=\d+\)$/g);
+                        assertCount+=1;
                     }
                 }
             }
+            // add assertCount to make sure all assersion has been verified.
+            assertCount.should.equal(4);
             await engine.resume(detail.event.body.threadId);
         });
         engine.registerHandler('output*', (event, arg1, arg2, detail) => {

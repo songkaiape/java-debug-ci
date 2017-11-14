@@ -2,7 +2,7 @@ import chai from 'chai'
 import path from 'path'
 import * as utils from './test-utils'
 chai.should();
-import {ROOT, LANGUAGE_SERVER_ROOT, LANGUAGE_SERVER_WORKSPACE} from './constants'
+import { ROOT, LANGUAGE_SERVER_ROOT, LANGUAGE_SERVER_WORKSPACE } from './constants'
 import { util } from 'chai/lib/chai';
 
 describe('Args test', () => {
@@ -14,7 +14,7 @@ describe('Args test', () => {
         return (async () => {
             config = new ArgsTest();
             DATA_ROOT = path.join(ROOT, config.workspaceRoot);
-            debugEngine = await utils.createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAGE_SERVER_WORKSPACE,config);
+            debugEngine = await utils.createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAGE_SERVER_WORKSPACE, config);
         })();
     });
 
@@ -64,15 +64,15 @@ class ArgsTest {
         return 'bin';
     }
 
-    get args(){
+    get args() {
         return "pro1 pro2 pro3"
     }
 
-    get vmArgs(){
+    get vmArgs() {
         return "-DsysProp1=sp1  -DsysProp2=sp2"
     }
 
-    get encoding(){
+    get encoding() {
         return "GBK";
     }
 
@@ -87,7 +87,7 @@ class ArgsTest {
         const breakpointFile = path.join(engine.cwd, this.sourcePath, 'ArgsTest.java');
         const expectedLine = 20;
         const outputList = [];
-        let assertCount=0;
+        let assertCount = 0;
         engine.registerHandler('breakpoint:*/ArgsTest.java:*', async (event, arg1, arg2, detail) => {
             utils.pathEquals(breakpointFile, detail.source.path).should.equal(true);
             detail.line.should.equal(expectedLine);
@@ -130,8 +130,8 @@ class ArgsTest {
             console.log("****", detail.output)
         });
         engine.registerHandler('terminated', () => {
-            utils.equalsWithoutLineEnding(outputList.join(''), 
-            'Program Arguments:pro1 pro2 pro3 VM Arguments:sp1 sp2\r\n');
+            utils.equalsWithoutLineEnding(outputList.join(''),
+                'Program Arguments:pro1 pro2 pro3 VM Arguments:sp1 sp2\r\n');
         });
     }
 }

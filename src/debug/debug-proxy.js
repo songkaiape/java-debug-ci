@@ -163,13 +163,13 @@ export function startDebugServer(projectRoot, userSettings) {
             });
             session.on('jsonrpc', (data) => {
                 if (data.id === 'updateDebugSettings') {
-                    console.log("updateDebugSettings:",data.result);
+                    console.log("updateDebugSettings:", data.result);
                     session.send({
                         "jsonrpc": "2.0",
                         "id": "resolveMainClass",
                         "method": "workspace/executeCommand",
                         "params": { "command": "vscode.java.resolveMainClass", "arguments": [] }
-                    });                   
+                    });
                 }
 
 

@@ -87,7 +87,7 @@ class ArgsTest {
         const breakpointFile = path.join(engine.cwd, this.sourcePath, 'ArgsTest.java');
         const expectedLine = 20;
         const outputList = [];
-        var assertCount=0;
+        let assertCount=0;
         engine.registerHandler('breakpoint:*/ArgsTest.java:*', async (event, arg1, arg2, detail) => {
             utils.pathEquals(breakpointFile, detail.source.path).should.equal(true);
             detail.line.should.equal(expectedLine);
@@ -104,19 +104,19 @@ class ArgsTest {
                     if (variable.name === 'args') {
                         variable.type.should.equal('String[]');
                         utils.shouldMatch(variable.value, /^String\[3]\s+\(id=\d+\)$/g);
-                        assertCount+=1;
+                        assertCount++;
                     }
                     if (variable.name === 'sysProp1Value') {
                         utils.shouldMatch(variable.value, /^"sp1"\s+\(id=\d+\)$/g);
-                        assertCount+=1;
+                        assertCount++;
                     }
                     if (variable.name === 'sysProp2Value') {
                         utils.shouldMatch(variable.value, /^"sp2"\s+\(id=\d+\)$/g);
-                        assertCount+=1;
+                        assertCount++;
                     }
                     if (variable.name === 'encoding') {
                         utils.shouldMatch(variable.value, /^"GBK"\s+\(id=\d+\)$/g);
-                        assertCount+=1;
+                        assertCount++;
                     }
                 }
             }

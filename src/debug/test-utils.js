@@ -76,8 +76,8 @@ export async function createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAG
     if (!fs.isDirectorySync(LANGUAGE_SERVER_ROOT)) {
         throw new Error(`${LANGUAGE_SERVER_ROOT} doesn't exist.`);
     }
-    var defaultSettings={
-        "logLevel":"FINE",
+    let defaultSettings={
+        "logLevel":"info",
         "maxStringLength":0,
         "showStaticVariables":true,
         "showQualifiedNames":false,

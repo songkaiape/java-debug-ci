@@ -77,7 +77,7 @@ export async function createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAG
         throw new Error(`${LANGUAGE_SERVER_ROOT} doesn't exist.`);
     }
     let defaultSettings = {
-        "logLevel": "info",
+        "logLevel": "INFO",
         "maxStringLength": 0,
         "showStaticVariables": true,
         "showQualifiedNames": false,
@@ -92,7 +92,7 @@ export async function createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAG
         try {
             rimraf.sync(LANGUAGE_SERVER_WORKSPACE);
         } catch (e) {
-            throw new Error(`Can't delete ${LANGUAGE_SERVER_ROOT} folder`);
+            throw new Error(`Can't delete ${LANGUAGE_SERVER_WORKSPACE} folder`);
         }
     }
     startLS(LANGUAGE_SERVER_ROOT, LANGUAGE_SERVER_WORKSPACE);

@@ -2,20 +2,15 @@ import chai from 'chai'
 import path from 'path'
 import * as utils from './test-utils'
 chai.should();
-import { spawn, exec, execSync } from 'child_process'
+import os from 'os'
+import { exec } from 'child_process'
 import { ROOT, LANGUAGE_SERVER_ROOT, LANGUAGE_SERVER_WORKSPACE } from './constants'
-import { error } from 'util';
 
 describe('JdkVersion test', () => {
     let config;
     let DATA_ROOT;
     let debugEngine;
-    before(function () {
-        if (os.platform() === 'win32') {
-            console.log("This case can't run on windows,your os is " + os.platform());
-            this.skip();
-        }
-    });
+
     beforeEach(function () {
 
         this.timeout(1000 * 20);
@@ -26,15 +21,21 @@ describe('JdkVersion test', () => {
             if (!jdk9Home) {
                 throw new error("Can't find env JAVA_HOME9");
             }
-
+            console.log("***** JAVA_HOME9 : " + jdk9Home);
             let startStr = `java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=1044 JdkVersion`;
-            let compileStr = `cd ${DATA_ROOT}/src/main/java&&javac -g ./JdkVersion.java`
-            let setpathStr = `export JAVA_HOME=${jdk9Home}&&export PATH=${jdk9Home}/bin:$PATH`
+            let compileStr = `cd ${DATA_ROOT}/src/main/java&&javac -g ./JdkVersion.java`;
+            let setpathStr = "";
+            if (!os.platform() === 'win32') {
+                setpathStr = `export JAVA_HOME=${jdk9Home}&&export PATH=${jdk9Home}/bin:$PATH`;
+            } else {
+                setpathStr = `set JAVA_HOME=\"${jdk9Home}\"`;
+            }
+
             let cmdStr = [compileStr, setpathStr, startStr].join("&&");
 
-            console.log("***** EXECUTE COMMAD " + cmdStr)
-            console.log("***** current Java_home: " + process.env.JAVA_HOME);
-
+            console.log("***** EXECUTE COMMAD " + cmdStr);
+            console.log("***** current JAVA_HOME: " + process.env.JAVA_HOME);
+            console.log("***** Start debugger with JAVA_HOME9: " + jdk9Home);
             exec(cmdStr, function (err, stdout, stderr) {
                 if (err) {
                     throw err;
@@ -42,7 +43,8 @@ describe('JdkVersion test', () => {
                     console.log("Commad finished!")
                     console.log(stdout);
                 }
-            })
+            });
+
             debugEngine = await utils.createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAGE_SERVER_WORKSPACE, config);
         })();
     });
@@ -124,8 +126,7 @@ class JdkVersionTest {
                         variable.type.should.equal('float');
                         utils.shouldMatch(variable.value, /30.000000/)
                     }
-                    if (variable.name === 'jdkVersion') {
-                        console.log(process.env.JAVA_HOME9);
+                    if (variable.name === 'jdkVersion') {                       
                         let match = /\d\.\d\.\d/.exec(process.env.JAVA_HOME9);
                         variable.value.includes(match[0]).should.equal(true);
                     }
@@ -139,7 +140,7 @@ class JdkVersionTest {
             outputList.push(detail.output);
             console.log("****", detail.output)
         });
-        engine.registerHandler('terminated', () => {                 
+        engine.registerHandler('terminated', () => {
             utils.equalsWithoutLineEnding(outputList.join('').replace(/:\s.*/g, ''), '[Warn] The debugger and the debuggee are running in different versions of JVMs. You could see wrong source mapping results.\nDebugger JVM version\nDebuggee JVM version');
         });
     }

@@ -1,6 +1,6 @@
 import chai from 'chai'
 import fs from 'fs-plus'
-import path from 'path'
+import path, { resolve } from 'path'
 import _ from 'lodash'
 import { DebugClient } from 'vscode-debugadapter-testsupport'
 import { DebugEngine } from "./debug-engine";
@@ -83,7 +83,7 @@ export async function createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAG
         "showQualifiedNames": false,
         "showHex": false
     };
-    const promise1 = startDebugServer(DATA_ROOT, config.userSettings || defaultSettings);
+    const promise1 = startDebugServer(DATA_ROOT, config.userSettings || defaultSettings,config);
     mkdirp.sync(LANGUAGE_SERVER_WORKSPACE);
     if (isLanguageServerStarted()) {
         console.log('waiting for ls down.');
@@ -99,23 +99,9 @@ export async function createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAG
     let resolveData = await promise1;
     let mainClass = new Array();;
     console.log("###MainClassData-->", resolveData);
-    const port = parseInt(resolveData[1]);
-    let resolveMainClassResult = resolveData[0];
-    //resovle mainclass
-    if (!config.mainClass) {
-        for (var item in resolveMainClassResult) {
-            if (resolveMainClassResult[item]["projectName"] === config.workspaceRoot) {
-                mainClass.push(resolveMainClassResult[item]["mainClass"]);
-            }
-        }
-        if (mainClass.length <= 0) {
-            throw "can't find mainClass";
-        }
-        Object.defineProperty(config, "mainClass", {
-            value: mainClass[0]
-        })
-    }
-
+    const port = parseInt(config.projectName?resolveData[2]:resolveData[1]);
+    
+    let classPatht=_.map(_.compact([...(config.classPath || []), config.outputPath]), d => path.resolve(DATA_ROOT, d));
     await promise1;
     const dc = new DebugClient('java');
     await dc.start(port);

@@ -6,11 +6,13 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch)-TodoApplication<todo-app-java-on-azure>",
+            "name": "Debug (Launch)-TodoApplication<24.todoapp>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
             "mainClass": "com.microsoft.azure.sample.TodoApplication",
-            "projectName": "todo-app-java-on-azure",
+            "projectName": "24.todoapp",
             "args": ""
         },
         {

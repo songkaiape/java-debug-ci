@@ -101,7 +101,6 @@ export async function createDebugEngine(DATA_ROOT, LANGUAGE_SERVER_ROOT, LANGUAG
     console.log("###MainClassData-->", resolveData);
     const port = parseInt(config.projectName?resolveData[2]:resolveData[1]);
     
-    let classPatht=_.map(_.compact([...(config.classPath || []), config.outputPath]), d => path.resolve(DATA_ROOT, d));
     await promise1;
     const dc = new DebugClient('java');
     await dc.start(port);

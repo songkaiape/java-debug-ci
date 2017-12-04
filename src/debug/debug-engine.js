@@ -68,7 +68,11 @@ export class DebugEngine {
         utils.validateResponse(response);
         return response.body;
     }
-
+    async stop() {
+        const response = await this.debugClient.stop();
+        utils.validateResponse(response);
+        return response.body;
+    }
     async resume(threadId) {
         const response = await this.debugClient.continueRequest({threadId});
         utils.validateResponse(response);

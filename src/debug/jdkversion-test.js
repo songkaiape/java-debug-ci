@@ -34,7 +34,7 @@ describe('JdkVersion test', () => {
             } else {
                 let pathStr = path.join(`${jdk9Home}`, "bin", "java");
                 startStr = pathStr + startStr;              
-                result = spawnSync('/bin/bash', ["-c", versionStr+' -version']);
+                result = spawnSync('/bin/bash', ["-c", pathStr+' -version']);
             }           
             let output = result.output.toString();
             console.log(output);

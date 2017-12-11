@@ -127,7 +127,7 @@ class JdkVersionTest {
                     }
                     if (variable.name === 'squareNums') {
                         variable.type.should.equal('float');
-                        utils.shouldMatch(variable.value, /30.000000/)
+                        utils.shouldMatch(variable.value, /30\.000000/)
                     }
                     if (variable.name === 'jdkVersion') {                       
                         let match = /\d\.\d\.\d/.exec(process.env.JAVA_HOME9);

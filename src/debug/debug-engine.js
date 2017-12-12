@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import * as utils from './test-utils'
-import {stopDebugServer} from './debug-proxy'
+import { stopDebugServer } from './debug-proxy'
 const myReplace = str => {
     return str ? str.replace(/\:/g, '%3A').replace(/\s/, '%20') : str;
 };
@@ -44,6 +44,11 @@ export class DebugEngine {
         utils.validateResponse(response);
         return response.body;
     }
+    async disconnect(restart) {
+        const response = await this.debugClient.disconnectRequest({ "restart": restart });
+        utils.validateResponse(response);
+        return response.body;
+    }
 
     async attach() {
         const response = await this.debugClient.attachRequest(this.launchConfig);
@@ -55,9 +60,9 @@ export class DebugEngine {
         const response = await this.debugClient.setBreakpointsRequest({
             lines: lines,
             breakpoints: _.map(lines, d => {
-                return {line: d};
+                return { line: d };
             }),
-            source: {path: file}
+            source: { path: file }
         });
         utils.validateResponse(response);
         return response.body;
@@ -70,25 +75,31 @@ export class DebugEngine {
     }
 
     async resume(threadId) {
-        const response = await this.debugClient.continueRequest({threadId});
+        const response = await this.debugClient.continueRequest({ threadId });
+        utils.validateResponse(response);
+        return response.body;
+    }
+
+    async startDebug() {
+        const response = await this.debugClient.configurationDoneRequest();
         utils.validateResponse(response);
         return response.body;
     }
 
     async stepIn(threadId) {
-        const response = await this.debugClient.stepInRequest({threadId});
+        const response = await this.debugClient.stepInRequest({ threadId });
         utils.validateResponse(response);
         return response.body;
     }
 
     async stepOut(threadId) {
-        const response = await this.debugClient.stepOutRequest({threadId});
+        const response = await this.debugClient.stepOutRequest({ threadId });
         utils.validateResponse(response);
         return response.body;
     }
 
     async stepOver(threadId) {
-        const response = await this.debugClient.nextRequest({threadId});
+        const response = await this.debugClient.nextRequest({ threadId });
         utils.validateResponse(response);
         return response.body;
     }
@@ -100,13 +111,13 @@ export class DebugEngine {
     }
 
     async scopes(stackFrameId) {
-        const response = await this.debugClient.scopesRequest({frameId: stackFrameId});
+        const response = await this.debugClient.scopesRequest({ frameId: stackFrameId });
         utils.validateResponse(response);
         return response.body;
     }
 
     async variables(variableId) {
-        const response = await this.debugClient.variablesRequest({variablesReference: variableId});
+        const response = await this.debugClient.variablesRequest({ variablesReference: variableId });
         utils.validateResponse(response);
         return response.body;
     }

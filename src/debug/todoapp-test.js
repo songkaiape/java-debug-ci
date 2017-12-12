@@ -16,6 +16,7 @@ describe('TodoApp test', () => {
     let DATA_ROOT;
     let debugEngine;
     before(function () {
+        this.timeout(1000 * 60);
         let projectPath = path.join(ROOT, 'todo-app-java-on-azure');
         console.log(projectPath);
         let downloadCmd = `cd ${ROOT}` + '&& git clone https://github.com/Microsoft/todo-app-java-on-azure.git';

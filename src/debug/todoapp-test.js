@@ -24,13 +24,10 @@ describe('TodoApp test', () => {
             execSync(downloadCmd, { stdio: [0, 1, 2] });
             let childPath = path.join(projectPath, ['src', 'main', 'resources'].join(path.sep));
             console.log(childPath);
-            let copyCmd = '';
-            if (os.platform() === 'win32') {
-                copyCmd = `copy /y ${ROOT}` + path.sep + `application.properties ` + `${childPath}`;
-            } else {
-                copyCmd = `cp -f ${ROOT}` + path.sep + `application.properties ` + `${childPath}`;
-            }
-            execSync(copyCmd, { stdio: [0, 1, 2] });
+            let dbKey=process.env.azure_documentdb_key;
+            let fileConent=`azure.documentdb.uri=https://todoapp-test-documentdb.documents.azure.com:443\/`+
+            `\nazure.documentdb.key=${dbKey}\nazure.documentdb.database=andy-demo`
+            fs.writeFileSync(`${childPath}`+path.sep+'application.properties',fileConent,'utf8')
         }
 
 
@@ -90,15 +87,7 @@ class TodoApp {
     get projectName() {
         return 'todo-app-java-on-azure';
     }
-    get userSettings() {
-        return {
-            "logLevel": "FINE",
-            "maxStringLength": 0,
-            "showStaticVariables": true,
-            "showQualifiedNames": false,
-            "showHex": false
-        };
-    }
+
     get initialBreakpoints() {
         return [
             {

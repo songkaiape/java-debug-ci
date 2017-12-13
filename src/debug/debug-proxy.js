@@ -156,7 +156,7 @@ export function startDebugServer(projectRoot, userSettings, config) {
             });
             session.on('jsonrpc', (data) => {
                 if (data.id === 'compile') {
-                    console.log("complie result:", data.result);
+                    console.log("compile result:", data.result);
                     session.send({
                         "jsonrpc": "2.0",
                         "id": "resolveMainClass",

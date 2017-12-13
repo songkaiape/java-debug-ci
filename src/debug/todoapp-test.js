@@ -8,7 +8,7 @@ import request from 'request';
 import syncRequest from 'sync-request';
 import fs from 'fs';
 import { execSync } from 'child_process';
-import os from 'os'
+import os from 'os';
 let randomStr = Date.now().toString();
 const url = "http://localhost:8080";
 describe('TodoApp test', () => {
@@ -24,10 +24,10 @@ describe('TodoApp test', () => {
             execSync(downloadCmd, { stdio: [0, 1, 2] });
             let childPath = path.join(projectPath, ['src', 'main', 'resources'].join(path.sep));
             console.log(childPath);
-            let dbKey=process.env.azure_documentdb_key;
-            let fileConent=`azure.documentdb.uri=https://todoapp-test-documentdb.documents.azure.com:443\/`+
-            `\nazure.documentdb.key=${dbKey}\nazure.documentdb.database=andy-demo`
-            fs.writeFileSync(`${childPath}`+path.sep+'application.properties',fileConent,'utf8')
+            const dbKey = process.env.azure_documentdb_key;
+            let fileConent = `azure.documentdb.uri=https://todoapp-test-documentdb.documents.azure.com:443\/` +
+                `\nazure.documentdb.key=${dbKey}\nazure.documentdb.database=andy-demo`
+            fs.writeFileSync(`${childPath}` + path.sep + 'application.properties', fileConent, 'utf8')
         }
 
 
@@ -161,11 +161,21 @@ class TodoApp {
             console.log("****", detail.output);
             if (detail.output.includes("Started TodoApplication")) {
                 console.log("send request to hit second BP");
-                request(postRequest, function (err, res, body) {
-                    if (err) {
-                        throw err;
-                    }
+                let promise = new Promise((resolve, reject) => {
+                    request(postRequest, (err, res, body) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(body);
+                        }
+                    });
                 });
+                promise.then((body) => {
+                    console.log(body);
+                }).catch((err) => {
+                    chai.assert.isNotOk(err, "Request Failed");
+                });
+
 
             }
         });

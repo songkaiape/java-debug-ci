@@ -80,12 +80,6 @@ export class DebugEngine {
         return response.body;
     }
 
-    async startDebug() {
-        const response = await this.debugClient.configurationDoneRequest();
-        utils.validateResponse(response);
-        return response.body;
-    }
-
     async stepIn(threadId) {
         const response = await this.debugClient.stepInRequest({ threadId });
         utils.validateResponse(response);
@@ -125,6 +119,16 @@ export class DebugEngine {
     async stackTrace(threadId) {
         const response = await this.debugClient.stackTraceRequest({
             threadId
+        });
+        utils.validateResponse(response);
+        return response.body;
+    }
+
+    async evaluate(expression, stackFrameId, context) {
+        const response = await this.debugClient.evaluateRequest({
+            expression: expression,
+            frameId: stackFrameId,
+            context: context
         });
         utils.validateResponse(response);
         return response.body;

@@ -1,6 +1,6 @@
 import chai from 'chai'
 import fs from 'fs-plus'
-import path, { resolve } from 'path'
+import path from 'path'
 import _ from 'lodash'
 import { DebugClient } from 'vscode-debugadapter-testsupport'
 import { DebugEngine } from "./debug-engine";

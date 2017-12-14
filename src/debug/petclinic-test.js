@@ -25,6 +25,8 @@ describe('PetClinic test', () => {
             else {
                 console.log("****", "Project is existed")
             }
+            let filePath=path.join(projectPath, 'src', 'main', 'resources','application.properties');
+            fs.appendFileSync(filePath,'\nserver.port=8880');
 
         })();
     });
@@ -124,7 +126,7 @@ class PetClinic {
                     return new Promise((resolve) => {
                         let opts = {
                             url: 'http://localhost',
-                            port: "8080"
+                            port: "8880"
                         };
                         http.get(opts, (res) => {
                             resolve(res);

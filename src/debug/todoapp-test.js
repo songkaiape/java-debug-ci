@@ -10,7 +10,7 @@ import fs from 'fs';
 import { execSync } from 'child_process';
 import os from 'os';
 let randomStr = Date.now().toString();
-const url = "http://localhost:8080";
+const url = "http://localhost:8880";
 describe('TodoApp test', () => {
     let config;
     let DATA_ROOT;
@@ -26,7 +26,7 @@ describe('TodoApp test', () => {
             console.log(childPath);
             const dbKey = process.env.azure_documentdb_key;
             let fileConent = `azure.documentdb.uri=https://todoapp-test-documentdb.documents.azure.com:443\/` +
-                `\nazure.documentdb.key=${dbKey}\nazure.documentdb.database=andy-demo`
+                `\nazure.documentdb.key=${dbKey}\nazure.documentdb.database=andy-demo\nserver.port=8880`
             fs.writeFileSync(`${childPath}` + path.sep + 'application.properties', fileConent, 'utf8')
         }
 
@@ -118,7 +118,7 @@ class TodoApp {
         };
         let postRequest = {
             url: url + '/api/todolist',
-            port: 8080,
+            port: 8880,
             method: 'POST',
             body: postData,
             json: true

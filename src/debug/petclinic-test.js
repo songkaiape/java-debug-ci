@@ -27,9 +27,9 @@ describe('PetClinic test', () => {
                 console.log(`set port to ${tomcatPort}`);
             }
             else {
-                console.log("****", "Project is existed")
+                console.log("****", "Project is existed");
                 const data = fs.readFileSync(configFilePath, 'utf8').replace(/server.port=\d{4}/g, `server.port=${tomcatPort}`);
-                fs.writeFileSync(configFilePath, data, 'utf8')
+                fs.writeFileSync(configFilePath, data, 'utf8');
                 console.log(`set port to ${tomcatPort}`);
             }
         })();

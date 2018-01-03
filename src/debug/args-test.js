@@ -77,7 +77,7 @@ class ArgsTest {
     }
 
     get stopOnEntry() {
-        return "true";
+        return true;
     }
 
     get initialBreakpoints() {
